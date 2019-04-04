@@ -35,11 +35,28 @@ namespace ExcuseManager
 
         private void button_Save_Click(object sender, EventArgs e)
         {
+            Excuse _excuse = new Excuse( this.textBox_Excuse.Text,
+                                        this.textBox_Result.Text,
+                                        this.dateTimePicker_LastUsed.Value
+                                        );
+            _excuse.Save(selectedFolder);
 
         }
 
         private void button_Open_Click(object sender, EventArgs e)
         {
+            openFileDialog1.Title = "Open file with excuse";
+            openFileDialog1.Filter = "Text files (*.txt)|*.txt";
+            openFileDialog1.InitialDirectory = selectedFolder;
+            openFileDialog1.CheckFileExists = true;
+            openFileDialog1.CheckPathExists = false;
+            DialogResult result = openFileDialog1.ShowDialog();
+            if (result == DialogResult.OK) {
+                Excuse _excuse = new Excuse(openFileDialog1.FileName);
+                this.textBox_Excuse.Text = _excuse.Description;
+                this.textBox_Result.Text = _excuse.Results;
+                this.dateTimePicker_LastUsed.Value = _excuse.LastUsed;
+            }
 
         }
 
