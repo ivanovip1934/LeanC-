@@ -47,7 +47,7 @@ namespace ExcuseManager
             if (Directory.Exists(_path)) {
                 Random _random = new Random();
                 string _fileName = "excuse" + _random.Next(1000, 9999).ToString();
-                string _fullName = _path + "\\" + _fileName;
+                string _fullName = _path + "\\" + _fileName +".txt";
                 using (StreamWriter _writer = new StreamWriter(_fullName)) {
                     _writer.WriteLine(this.description);
                     _writer.WriteLine(this.results);
