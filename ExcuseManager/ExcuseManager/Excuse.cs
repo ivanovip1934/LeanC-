@@ -28,6 +28,20 @@ namespace ExcuseManager
         public Excuse(string _path) {
             this.openFile(_path);
         }
+
+        public Excuse(string _pathDirectory, bool _boolRandom) {
+            if (_boolRandom) {
+                Random _random = new Random();
+                if (Directory.Exists(_pathDirectory)) {
+                    string[] _files = Directory.GetFiles(_pathDirectory, "*.txt");
+                    if (_files.Length > 0) {
+                        string _fullName = _files[_random.Next(0, _files.Length)];
+                        this.openFile(_fullName);
+                    }
+                }
+            }
+        }
+
                               
         private void openFile(string _path)
         {

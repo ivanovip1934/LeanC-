@@ -62,7 +62,10 @@ namespace ExcuseManager
 
         private void button_Random_Click(object sender, EventArgs e)
         {
-
+            Excuse _excuse = new Excuse(selectedFolder, true);
+            this.textBox_Excuse.Text = _excuse.Description;
+            this.textBox_Result.Text = _excuse.Results;
+            this.dateTimePicker_LastUsed.Value = _excuse.LastUsed;
         }
     }
 }
