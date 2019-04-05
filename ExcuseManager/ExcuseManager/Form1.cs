@@ -43,7 +43,7 @@ namespace ExcuseManager
                 return;
             }
             saveFileDialog1.InitialDirectory = selectedFolder;
-            saveFileDialog1.FileName = "Text files (*.txt)|*.txt";
+            saveFileDialog1.Filter = "Text files (*.txt)|*.txt";
             saveFileDialog1.FileName = textBox_Excuse.Text + ".txt";
             DialogResult _result = saveFileDialog1.ShowDialog();
             if (_result == DialogResult.OK) {
