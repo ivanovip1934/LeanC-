@@ -9,64 +9,41 @@ namespace ExcuseManager
 {
     class Excuse
     {
-        private string description;
-        public string Description { get { return description; } }
-        private string results;
-        public string Results { get { return results; } }
-        private DateTime lastUsed;
-        public DateTime LastUsed { get { return lastUsed; } }
-        private string excusePath;
-        public string ExcusePath { get { return excusePath; } }
+        public string Description { get; set; }
+        public string Results { get; set; }
+        public DateTime LastUsed { get; set; }
+        public string ExcusePath { get; set; }
 
 
-        public Excuse(string _description, string _results, DateTime _lastUsed) {
-            this.description = _description;
-            this.results = _results;
-            this.lastUsed = _lastUsed;
+        public Excuse() {
+            ExcusePath = "";
         }
-
-        public Excuse(string _path) {
+        public Excuse(string _path){
             this.openFile(_path);
         }
 
-        public Excuse(string _pathDirectory, bool _boolRandom) {
-            if (_boolRandom) {
-                Random _random = new Random();
-                if (Directory.Exists(_pathDirectory)) {
-                    string[] _files = Directory.GetFiles(_pathDirectory, "*.txt");
-                    if (_files.Length > 0) {
-                        string _fullName = _files[_random.Next(0, _files.Length)];
-                        this.openFile(_fullName);
-                    }
-                }
-            }
+       public Excuse(Random _random, string _pathDirectory) {
+            string[] _fileName = Directory.GetFiles(_pathDirectory, "*.txt");
+            openFile(_fileName[_random.Next(_fileName.Length)]);
+
         }
 
                               
         private void openFile(string _path)
         {
-            if (File.Exists(_path))
-            {
-                this.excusePath = _path;
-                using (StreamReader _reader = new StreamReader(this.excusePath))
-                {
-                    this.description = _reader.ReadLine();
-                    this.results = _reader.ReadLine();
-                    this.lastUsed = Convert.ToDateTime(_reader.ReadLine());
-                }
+            this.ExcusePath = _path;
+            using (StreamReader _reader = new StreamReader(ExcusePath)) {
+                this.Description = _reader.ReadLine();
+                this.Results = _reader.ReadLine();
+                this.LastUsed = Convert.ToDateTime(_reader.ReadLine());
             }
         }
 
         public void Save(string _path) {
-            if (Directory.Exists(_path)) {
-                Random _random = new Random();
-                string _fileName = "excuse" + _random.Next(1000, 9999).ToString();
-                string _fullName = _path + "\\" + _fileName +".txt";
-                using (StreamWriter _writer = new StreamWriter(_fullName)) {
-                    _writer.WriteLine(this.description);
-                    _writer.WriteLine(this.results);
-                    _writer.WriteLine(Convert.ToString(this.lastUsed));
-                }
+            using (StreamWriter _writer = new StreamWriter(_path)) {
+                _writer.WriteLine(Description);
+                _writer.WriteLine(Results);
+                _writer.WriteLine(LastUsed); // метод WriteLine() вызывает метод ToString() автоматически!!!
             }
 
         }

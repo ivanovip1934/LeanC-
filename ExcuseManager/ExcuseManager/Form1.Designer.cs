@@ -42,6 +42,8 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.SuspendLayout();
             // 
             // textBox_Excuse
@@ -50,6 +52,7 @@
             this.textBox_Excuse.Name = "textBox_Excuse";
             this.textBox_Excuse.Size = new System.Drawing.Size(331, 20);
             this.textBox_Excuse.TabIndex = 0;
+            this.textBox_Excuse.TextChanged += new System.EventHandler(this.textBox_Excuse_TextChanged);
             // 
             // textBox_Result
             // 
@@ -57,6 +60,7 @@
             this.textBox_Result.Name = "textBox_Result";
             this.textBox_Result.Size = new System.Drawing.Size(331, 20);
             this.textBox_Result.TabIndex = 1;
+            this.textBox_Result.TextChanged += new System.EventHandler(this.textBox_Result_TextChanged);
             // 
             // dateTimePicker_LastUsed
             // 
@@ -64,6 +68,7 @@
             this.dateTimePicker_LastUsed.Name = "dateTimePicker_LastUsed";
             this.dateTimePicker_LastUsed.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker_LastUsed.TabIndex = 2;
+            this.dateTimePicker_LastUsed.ValueChanged += new System.EventHandler(this.dateTimePicker_LastUsed_ValueChanged);
             // 
             // label1
             // 
@@ -207,6 +212,8 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }
 
