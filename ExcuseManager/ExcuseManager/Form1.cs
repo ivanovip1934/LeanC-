@@ -67,5 +67,36 @@ namespace ExcuseManager
             this.textBox_Result.Text = _excuse.Results;
             this.dateTimePicker_LastUsed.Value = _excuse.LastUsed;
         }
+
+        private void textBox_Excuse_TextChanged(object sender, EventArgs e)
+        {
+            UpdateForm(true);
+        }
+
+        private void textBox_Result_TextChanged(object sender, EventArgs e)
+        {
+            UpdateForm(true);
+        }
+
+        private void dateTimePicker_LastUsed_ValueChanged(object sender, EventArgs e)
+        {
+            UpdateForm(true);
+        }
+
+        private void UpdateForm(bool _changed)
+        {
+            if (!_changed)
+            {
+                this.textBox_Excuse.Text = currentExcuse.Description;
+                this.textBox_Result.Text = currentExcuse.Results;
+                this.dateTimePicker_LastUsed.Value = currentExcuse.LastUsed;
+                if (!String.IsNullOrEmpty(currentExcuse.ExcusePath))
+                    label_FileDate.Text = File.GetLastWriteTime(currentExcuse.ExcusePath).ToString();
+                this.Text = "Excuse MAnager";
+            }
+            else
+                this.Text = "Excuse Manager*";
+            this.formChanged = _changed;
+        }
     }
 }
