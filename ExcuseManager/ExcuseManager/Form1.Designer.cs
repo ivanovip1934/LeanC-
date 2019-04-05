@@ -50,6 +50,7 @@
             this.textBox_Excuse.Name = "textBox_Excuse";
             this.textBox_Excuse.Size = new System.Drawing.Size(331, 20);
             this.textBox_Excuse.TabIndex = 0;
+            this.textBox_Excuse.TextChanged += new System.EventHandler(this.textBox_Excuse_TextChanged);
             // 
             // textBox_Result
             // 
@@ -57,6 +58,7 @@
             this.textBox_Result.Name = "textBox_Result";
             this.textBox_Result.Size = new System.Drawing.Size(331, 20);
             this.textBox_Result.TabIndex = 1;
+            this.textBox_Result.TextChanged += new System.EventHandler(this.textBox_Result_TextChanged);
             // 
             // dateTimePicker_LastUsed
             // 
@@ -64,6 +66,7 @@
             this.dateTimePicker_LastUsed.Name = "dateTimePicker_LastUsed";
             this.dateTimePicker_LastUsed.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker_LastUsed.TabIndex = 2;
+            this.dateTimePicker_LastUsed.ValueChanged += new System.EventHandler(this.dateTimePicker_LastUsed_ValueChanged);
             // 
             // label1
             // 

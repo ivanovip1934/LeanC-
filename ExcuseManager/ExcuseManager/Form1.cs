@@ -18,6 +18,7 @@ namespace ExcuseManager
             InitializeComponent();
         }
 
+        private bool formChanged = false;
         private string selectedFolder = "";
 
         private void button_Folder_Click(object sender, EventArgs e)
@@ -40,32 +41,37 @@ namespace ExcuseManager
                                         this.dateTimePicker_LastUsed.Value
                                         );
             _excuse.Save(selectedFolder);
-
+            this.Text = "Excuse Manager";
+            this.formChanged = false;
+            MessageBox.Show("Excuse written");
         }
 
         private void button_Open_Click(object sender, EventArgs e)
         {
-            openFileDialog1.Title = "Open file with excuse";
-            openFileDialog1.Filter = "Text files (*.txt)|*.txt";
-            openFileDialog1.InitialDirectory = selectedFolder;
-            openFileDialog1.CheckFileExists = true;
-            openFileDialog1.CheckPathExists = false;
-            DialogResult result = openFileDialog1.ShowDialog();
-            if (result == DialogResult.OK) {
-                Excuse _excuse = new Excuse(openFileDialog1.FileName);
-                this.textBox_Excuse.Text = _excuse.Description;
-                this.textBox_Result.Text = _excuse.Results;
-                this.dateTimePicker_LastUsed.Value = _excuse.LastUsed;
+            if (CheckChanged())
+            {
+                openFileDialog1.Title = "Open file with excuse";
+                openFileDialog1.Filter = "Text files (*.txt)|*.txt";
+                openFileDialog1.InitialDirectory = selectedFolder;
+                openFileDialog1.CheckFileExists = true;
+                openFileDialog1.CheckPathExists = false;
+                DialogResult result = openFileDialog1.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    Excuse _excuse = new Excuse(openFileDialog1.FileName);
+                    UpdateForm(_excuse);
+                }
             }
 
         }
 
         private void button_Random_Click(object sender, EventArgs e)
         {
-            Excuse _excuse = new Excuse(selectedFolder, true);
-            this.textBox_Excuse.Text = _excuse.Description;
-            this.textBox_Result.Text = _excuse.Results;
-            this.dateTimePicker_LastUsed.Value = _excuse.LastUsed;
+            if (this.CheckChanged())
+            {
+                Excuse _excuse = new Excuse(selectedFolder, true);
+                UpdateForm(_excuse);
+            }
         }
 
         private void textBox_Excuse_TextChanged(object sender, EventArgs e)
@@ -83,20 +89,32 @@ namespace ExcuseManager
             UpdateForm(true);
         }
 
-        private void UpdateForm(bool _changed)
-        {
-            if (!_changed)
-            {
-                this.textBox_Excuse.Text = currentExcuse.Description;
-                this.textBox_Result.Text = currentExcuse.Results;
-                this.dateTimePicker_LastUsed.Value = currentExcuse.LastUsed;
-                if (!String.IsNullOrEmpty(currentExcuse.ExcusePath))
-                    label_FileDate.Text = File.GetLastWriteTime(currentExcuse.ExcusePath).ToString();
-                this.Text = "Excuse MAnager";
-            }
-            else
-                this.Text = "Excuse Manager*";
-            this.formChanged = _changed;
+        private void UpdateForm(bool _formchange) {
+            this.Text = "Excuse Manager*";
+            this.formChanged = true;
         }
+        private void UpdateForm(Excuse _excuse)
+        {
+            this.textBox_Excuse.Text = _excuse.Description;
+            this.textBox_Result.Text = _excuse.Results;
+            this.dateTimePicker_LastUsed.Value = _excuse.LastUsed;
+            if (!String.IsNullOrEmpty(_excuse.ExcusePath))
+                label_FileDate.Text = File.GetLastWriteTime(_excuse.ExcusePath).ToString();
+            this.Text = "Excuse MAnager";
+            this.formChanged = false;
+        }
+
+        private bool CheckChanged(){
+            if (formChanged)
+            {
+                DialogResult _result = MessageBox.Show(
+                    "The current excuse has not been saved. Continue?",
+                    "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (_result == DialogResult.No)
+                    return false;
+            }
+            return true;
+        }
+        
     }
 }
