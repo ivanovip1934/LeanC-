@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace ExcuseManager
 {
+    [Serializable]
     class Excuse
     {
         private string description;
@@ -33,7 +35,7 @@ namespace ExcuseManager
             if (_boolRandom) {
                 Random _random = new Random();
                 if (Directory.Exists(_pathDirectory)) {
-                    string[] _files = Directory.GetFiles(_pathDirectory, "*.txt");
+                    string[] _files = Directory.GetFiles(_pathDirectory, "*.dat");
                     if (_files.Length > 0) {
                         string _fullName = _files[_random.Next(0, _files.Length)];
                         this.openFile(_fullName);
@@ -48,11 +50,14 @@ namespace ExcuseManager
             if (File.Exists(_path))
             {
                 this.excusePath = _path;
-                using (StreamReader _reader = new StreamReader(this.excusePath))
+                using (FileStream _reader = File.OpenRead(_path))
                 {
-                    this.description = _reader.ReadLine();
-                    this.results = _reader.ReadLine();
-                    this.lastUsed = Convert.ToDateTime(_reader.ReadLine());
+                    BinaryFormatter _bf = new BinaryFormatter();
+                    Excuse _tmpexcuse = (Excuse)_bf.Deserialize(_reader);
+                    this.description = _tmpexcuse.Description;
+                    this.results = _tmpexcuse.Results;
+                    this.lastUsed = _tmpexcuse.lastUsed;
+                    this.excusePath = _tmpexcuse.ExcusePath;
                 }
             }
         }
@@ -61,11 +66,11 @@ namespace ExcuseManager
             if (Directory.Exists(_path)) {
                 Random _random = new Random();
                 string _fileName = "excuse" + _random.Next(1000, 9999).ToString();
-                string _fullName = _path + "\\" + _fileName +".txt";
-                using (StreamWriter _writer = new StreamWriter(_fullName)) {
-                    _writer.WriteLine(this.description);
-                    _writer.WriteLine(this.results);
-                    _writer.WriteLine(Convert.ToString(this.lastUsed));
+                string _fullName = _path + "\\" + _fileName +".dat";
+
+                using (FileStream _output = File.Create(_fullName)) {
+                    BinaryFormatter _bf = new BinaryFormatter();
+                    _bf.Serialize(_output, this);
                 }
             }
 

@@ -51,7 +51,7 @@ namespace ExcuseManager
             if (CheckChanged())
             {
                 openFileDialog1.Title = "Open file with excuse";
-                openFileDialog1.Filter = "Text files (*.txt)|*.txt";
+                openFileDialog1.Filter = "Binary files (*.dat)|*.dat";
                 openFileDialog1.InitialDirectory = selectedFolder;
                 openFileDialog1.CheckFileExists = true;
                 openFileDialog1.CheckPathExists = false;
