@@ -50,15 +50,18 @@ namespace ExcuseManager
             if (File.Exists(_path))
             {
                 this.excusePath = _path;
+                Excuse _tmpexcuse;
+
                 using (FileStream _reader = File.OpenRead(_path))
                 {
                     BinaryFormatter _bf = new BinaryFormatter();
-                    Excuse _tmpexcuse = (Excuse)_bf.Deserialize(_reader);
-                    this.description = _tmpexcuse.Description;
-                    this.results = _tmpexcuse.Results;
-                    this.lastUsed = _tmpexcuse.lastUsed;
-                    this.excusePath = _tmpexcuse.ExcusePath;
+                    _tmpexcuse = (Excuse)_bf.Deserialize(_reader);
                 }
+                this.description = _tmpexcuse.Description;
+                this.results = _tmpexcuse.Results;
+                this.lastUsed = _tmpexcuse.lastUsed;
+                this.excusePath = _tmpexcuse.ExcusePath;
+
             }
         }
 
