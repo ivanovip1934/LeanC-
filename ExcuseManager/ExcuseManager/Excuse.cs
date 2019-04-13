@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Windows.Forms;
 
 namespace ExcuseManager
 {
@@ -36,7 +37,11 @@ namespace ExcuseManager
                 Random _random = new Random();
                 if (Directory.Exists(_pathDirectory)) {
                     string[] _files = Directory.GetFiles(_pathDirectory, "*.dat");
-                    if (_files.Length > 0) {
+                    if (_files.Length == 0) {
+                        MessageBox.Show("Please specify a folder with excuse files int it",
+                            "No excuse files found");
+                    }
+                    else {
                         string _fullName = _files[_random.Next(0, _files.Length)];
                         this.openFile(_fullName);
                     }
