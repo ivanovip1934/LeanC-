@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Runtime.Serialization;
 
 namespace ExcuseManager
 {
@@ -67,20 +68,25 @@ namespace ExcuseManager
 
         private void button_Random_Click(object sender, EventArgs e)
         {
-            if (this.CheckChanged())
+            Excuse _excuse = new Excuse("", "", DateTime.Now);
+
+            try
             {
-                string[] _fileNames = Directory.GetFiles(selectedFolder, "*.dat");
-                if (_fileNames.Length == 0 )
+                if (this.CheckChanged())
                 {
-                    MessageBox.Show("Please specify a folder with excuse files in it",
-                        "No excuse files found");
+                    string[] _fileNames = Directory.GetFiles(selectedFolder, "*.dat");
+                    _excuse = new Excuse(selectedFolder, true);
+                    
                 }
-                else{
-                    Excuse _excuse = new Excuse(selectedFolder, true);
-                    UpdateForm(_excuse);
-                }
-
-
+            }
+            catch (IndexOutOfRangeException){
+                MessageBox.Show("No files *.dat in folder");
+            }
+            catch (SerializationException){
+                MessageBox.Show("File .dat is corrupt");
+            }
+            finally {
+                UpdateForm(_excuse);
             }
         }
 
