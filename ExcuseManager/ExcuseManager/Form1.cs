@@ -69,8 +69,8 @@ namespace ExcuseManager
         {
             if (this.CheckChanged())
             {
-                string[] fileNames = Directory.GetFiles(selectedFolder, "*.dat");
-                if (fileNames.Length == 0 )
+                string[] _fileNames = Directory.GetFiles(selectedFolder, "*.dat");
+                if (_fileNames.Length == 0 )
                 {
                     MessageBox.Show("Please specify a folder with excuse files in it",
                         "No excuse files found");
