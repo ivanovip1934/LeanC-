@@ -69,8 +69,18 @@ namespace ExcuseManager
         {
             if (this.CheckChanged())
             {
-                Excuse _excuse = new Excuse(selectedFolder, true);
-                UpdateForm(_excuse);
+                string[] fileNames = Directory.GetFiles(selectedFolder, "*.dat");
+                if (fileNames.Length == 0 )
+                {
+                    MessageBox.Show("Please specify a folder with excuse files in it",
+                        "No excuse files found");
+                }
+                else{
+                    Excuse _excuse = new Excuse(selectedFolder, true);
+                    UpdateForm(_excuse);
+                }
+
+
             }
         }
 
@@ -94,13 +104,14 @@ namespace ExcuseManager
             this.formChanged = true;
         }
         private void UpdateForm(Excuse _excuse)
+
         {
             this.textBox_Excuse.Text = _excuse.Description;
             this.textBox_Result.Text = _excuse.Results;
             this.dateTimePicker_LastUsed.Value = _excuse.LastUsed;
             if (!String.IsNullOrEmpty(_excuse.ExcusePath))
                 label_FileDate.Text = File.GetLastWriteTime(_excuse.ExcusePath).ToString();
-            this.Text = "Excuse MAnager";
+            this.Text = "Excuse Manager";
             this.formChanged = false;
         }
 
